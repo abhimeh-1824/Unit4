@@ -1,0 +1,47 @@
+// Create database
+use users
+
+
+// create one collection
+db.user_data.insert({first_name:"abhishek",last_name:"mehra",email:"abhishekmehra1245@gmial.com",gender:"male",ip_adress:"new govind nagar",age:22})
+
+
+// crete multiple collection
+db.user_data.insertMany([{first_name:"bhagat",last_name:"singh",email:"bhagat11@gmail.com",gender:"male",ip_adress:"panjab",age:21},
+{first_name:"chandrshekhar",last_name:"azad",email:"azad@gmail.com",gender:"male",ip_adress:"bihar",age:24},
+{first_name:"shubhaschandr",last_name:"boss",email:"boss@gmial.com",gender:"male",ip_adress:"india",age:27},
+{first_name:"bhimrao",last_name:"ambedkar",email:"bhim@gmial.com",gender:"male",ip_adress:"bharat",age:48},
+{first_name:"laxmi",last_name:"bai",email:"laxmi@",gender:"femail",ip_adress:"jhasi@gmail.com",age:26},
+{first_name:"Kasturba ",last_name:"gandhi",email:"kasturba@gmail.com",gender:"femail",ip_adress:"gujrat",age:25},
+{first_name:"rajiv",last_name:"dixit",email:"rajiv@gmail.com",gender:"male",ip_adress:"utarpradesh",age:48},
+{first_name:"raj",last_name:"guru",email:"guru@gmail.com",gender:"male",ip_adress:"aaryabrat",age:19},
+{first_name:"shukh",last_name:"dev",email:"dev@gmail.com",gender:"male",ip_adress:"panjab",age:20}]);
+
+
+// show one documents
+db.user_data.find({first_name:"abhishek})
+
+// show  collection=> all documents
+db.user_data.find().pretty()
+
+
+// Update one documents fields
+db.user_data.update({age:24},{$set:{age:48}})
+
+// update Many documents fields
+db.user_data.updateMany({age:48},{$set:{age:24}})
+
+// remove one documents
+db.user_data.remove({age:19})
+
+// deleteOne documents
+db.user_data.deleteOne({first_name:"abhishek"})
+
+// deletemany
+db.user_data.deleteMany({age:24})
+
+// delete all documents
+db.user_data.deleteMany({})
+
+//delete database
+db.dropDatabase()
