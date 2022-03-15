@@ -20,7 +20,7 @@ const evalutionSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"user",
         required:true
-    }
+    },
 },
 {
     timestamps:true,
