@@ -31,7 +31,7 @@ const savingAccSechma = new mongoose.Schema({
     versionKey:false
 })
 
-modules.export = mongoose.model("savingAcc",savingAccSechma);
+module.exports = mongoose.model("savingAcc",savingAccSechma);
 
 
 

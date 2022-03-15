@@ -21,7 +21,7 @@ const masterAccSechma = new mongoose.Schema({
     timestamps:true,
     versionKey:false
 })
-modules.export = mongoose.model("masterAcc",masterAccSechma);
+module.exports = mongoose.model("masterAcc",masterAccSechma);
 
 
 

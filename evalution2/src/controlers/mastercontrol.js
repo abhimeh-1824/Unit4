@@ -1,6 +1,6 @@
-const Masteracc = require("./models/masterModels.js");
+const Masteracc = require("../models/masterModel");
 const express = require("express");
-const router = express.Router
+const router = express.Router()
 
 router.get("",async(req,res)=>{
     try {
@@ -18,3 +18,5 @@ router.get("/:id",async(req,res)=>{
         return res.status(500).send({meassge:error.message})
     }
 });
+
+module.exports = router;

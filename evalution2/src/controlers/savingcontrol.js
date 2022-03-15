@@ -1,7 +1,7 @@
-const Savingacc = require("./models/savingModel.js");
-const mongoose = require("mongoose")
+const Savingacc = require("../models/savingModels");
+
 const express = require("express");
-const router = express.Router
+const router = express.Router()
 
 router.get("",async(req,res)=>{
     try {
@@ -38,3 +38,5 @@ router.delete("/:id",async(req,res)=>{
         return res.status(500).send({meassge:error.message})
     }
 });
+
+module.exports = router;

@@ -1,7 +1,6 @@
-const fixedacc = require("./models/fixedModel.js");
-const mongoose = require("mongoose")
+const fixedacc = require("../models/fixedModels");
 const express = require("express");
-const router = express.Router
+const router = express.Router()
 
 router.get("",async(req,res)=>{
     try {
@@ -38,3 +37,5 @@ router.delete("/:id",async(req,res)=>{
         return res.status(500).send({meassge:error.message})
     }
 });
+
+module.exports = router;

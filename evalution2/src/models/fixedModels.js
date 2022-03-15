@@ -38,7 +38,7 @@ const fixedAccSechma = new mongoose.Schema({
     versionKey:false
 })
 
-modules.export = mongoose.model("fixedAcc",fixedAccSechma);
+module.exports = mongoose.model("fixedAcc",fixedAccSechma);
 
 
 
