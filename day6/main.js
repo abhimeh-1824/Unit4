@@ -2,6 +2,7 @@ const { application } = require("express");
 const express = require("express");
 const { default: mongoose } = require("mongoose");
 const mongoos = require("mongoose");
+const { required } = require("nodemon/lib/config");
 const port = 4000;
 const app = express();
 app.use(express.json())
@@ -94,38 +95,58 @@ const authorschema = new mongoos.Schema({
         type:String,
         required:true
     },
-    bookId:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"book",
-        required:true
-    }
+
 })
 // step-2 create author model
 const Author =  mongoos.model("author",authorschema);
 
+
+//  book and author schema 
+
+const bookAuthorSchema = new mongoos.Schema({
+    bookId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"book",
+        required:true
+    },
+    authorId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"author",
+        required:true
+    }
+
+},{
+    timestamps:true,
+    versionKey:false
+})
+
+
+const Book_author = mongoos.model("authorbook",bookAuthorSchema);
 
 // create CheckOut Books
 // ste-1 create schema
 const checkSechma = new mongoos.Schema({
     checkedOutTime:{
         type:Date,
-        default:null
+        default:null,
+        required:false
     },
     checkedInTime:{
         type:Date,
-        default:null
+        default:null,
+        required:false
     },
     bookId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"book",
         required:true
     },
-    sectionId:{
+    userId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"section",
+        ref:"user",
         required:true
-    },
-
+    }
+    
 },{
     timestamps:true,
     versionKey:false
@@ -133,10 +154,15 @@ const checkSechma = new mongoos.Schema({
 const Check = mongoose.model("check",checkSechma);
 
 
+//  croud opratoin ------------------------------------------------------------------------------
+
 //  Get - Getting data form the server;
 //  Post - Adding data to the server;
 //  put/patch - Updating data in the server;
 // delete - Deleting data from the server;
+
+
+
 
 
 //  create user data
@@ -165,6 +191,8 @@ app.post("/user",async(req,res)=>{
     
 })
 
+
+
 //  create section 
 app.get("/section",async(req,res)=>{
     try {
@@ -187,8 +215,46 @@ app.post("/section",async(req,res)=>{
 
 
 
+// create book
+
+app.get("/book",async(req,res)=>{
+    try {
+        const bookData = await Book.find().lean().exec();
+        return res.status(200).send({bookData:bookData})
+    } catch (error) {
+        return res.status(500).send({message:error.message});
+    }  
+})
+
+app.post("/book",async(req,res)=>{
+    try {
+        const bookData = await Book.create(req.body);
+        return res.status(201).send({bookData:bookData})
+    } catch (error) {
+        return res.status(500).send({message:error.message});
+    }  
+})
 
 
+// create author
+
+app.get("/author",async(req,res)=>{
+    try {
+        const authorData = await Author.find().lean().exec();
+        return res.status(200).send({authorData:authorData})
+    } catch (error) {
+        return res.status(500).send({message:error.message});
+    }  
+})
+
+app.post("/author",async(req,res)=>{
+    try {
+        const authorData = await Author.create(req.body);
+        return res.status(201).send({authorData:authorData})
+    } catch (error) {
+        return res.status(500).send({message:error.message});
+    }  
+})
 
 
 
@@ -202,33 +268,56 @@ app.post("/section",async(req,res)=>{
 // Q1.find all books written by an author
 app.get("/book/:id",async(req,res)=>{
     try {
-        const allBooks = await Book.findById(req.params.id).lean().exec()
+        const allBooks = await Book.find({"authorId":req.params.id}).lean().exec()
+        console.log(allBooks,req.params.authorId)
         return res.status(200).send({allBooks:allBooks});  
     } catch (error) {
         return res.status(500).send({message:error.message});
     }
 })
 
-// Q2.find books in a section
-app.get("/checkSechma/:check",async(req,res)=>{
+// Q2 . find book in section 
+app.get("/book/:sectionid",async(req,res)=>{
     try {
-        const sections_book = await Section.find({}).lean().exec()
-        return res.status(200).send({sections_books:sections_book}); 
+        const allBooks = await Book.find({"sectionId":req.params.sectionid}).lean().exec()
+        console.log(allBooks,req.params.authorId)
+        return res.status(200).send({allBooks:allBooks});  
     } catch (error) {
         return res.status(500).send({message:error.message});
     }
 })
 
-// Q3.find books in a section that are not checked out
-app.post("section",async(req,res)=>{
+
+app.post("/checkStatus",async(req,res)=>{
     try {
-        const sections_book = await Section.find().lean().exec()
-        return res.status(200).send({sections_books:sections_book}); 
+        const status_book = await Check.create(req.body);
+    return res.status(200).send({status_book:status_book});  
+    } catch (error) {
+        return res.status(500).send({message:error.message});
+    }
+    
+})
+
+// Q3.find books  chaeck out
+app.get("/checkout",async(req,res)=>{
+    try {
+        const status_book= await Check.find({$and:[{checkedOutTime:{$not:{$eq:null}}},{checkedInTime:{$not:{$eq:null}}}]}).lean().exec()
+       console.log(status_book)
+        return res.status(200).send({status_book:status_book}); 
     } catch (error) {
         return res.status(500).send({message:error.message});
     }
 })
-
+//// Q4.find books not chaeck out
+app.get("/nocheckout",async(req,res)=>{
+    try {
+        const status_book= await Check.find({$and:[{checkedOutTime:{$eq:null}},{checkedInTime:{$eq:null}}]}).lean().exec()
+       console.log(status_book)
+        return res.status(200).send({status_book:status_book}); 
+    } catch (error) {
+        return res.status(500).send({message:error.message});
+    }
+})
 
 
 
