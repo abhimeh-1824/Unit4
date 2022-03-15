@@ -1,7 +1,6 @@
 const express = require("express");
 const parse = require("nodemon/lib/cli/parse");
-const Student = require("../models/student.model")
-const Evalution = require("./evalution.model")
+const Evalution = require("../models/evalution.model")
 const router = express.Router();
 
 router.get("/:evalutionDate",async(req,res)=>{
