@@ -5,6 +5,7 @@ const mongoos = require("mongoose");
 const { required } = require("nodemon/lib/config");
 const port = 4000;
 const app = express();
+
 app.use(express.json())
 
 
