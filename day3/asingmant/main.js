@@ -13,7 +13,7 @@ function singleBook()
 {
     return function loge (req,res,next)
     {
-        if(req.params.name == "GameOfThrones" || req.params == "Potter then ")
+        if(req.params.name == "GameOfThrones" || req.params.name == "Potter then ")
         {
             return  next()
         }

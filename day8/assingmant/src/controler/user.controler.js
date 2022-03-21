@@ -11,7 +11,6 @@ router.get("/",async(req,res)=>{
         const page = req.query.page||1;
         const pagesize = req.query.pagesize || 5;
         const skip = (page-1)*pagesize;
-
         const userdata = await User.find().skip(skip).limit(pagesize).lean().exec();
         const totalpage = Math.ceil((await User.find().countDocuments())/pagesize)
         console.log(totalpage)

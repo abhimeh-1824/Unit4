@@ -13,12 +13,12 @@ const evalutionSchema = new mongoose.Schema({
     },
     batchId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"batch",
+        ref:batch,
         required:true
     },
     userId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"user",
+        ref:user,
         required:true
     },
 },

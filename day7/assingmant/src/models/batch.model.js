@@ -2,7 +2,7 @@
 
 const mongoose = require("mongoose");
 
-const batchSchema = new mongoose.Schema({
+ const Batchschema = new mongoose.Schema({
     batchName:{
         type:String,
         required:true
@@ -11,3 +11,5 @@ const batchSchema = new mongoose.Schema({
     timestamps:true,
     versionKey:false
 });
+
+module.exports = mongoose.model("batch",Batchschema)
