@@ -17,7 +17,7 @@ router.post("",middelware.single("profile_pic"),async(req,res)=>{
 
 })
 
-router.post("",middelware.array("profile_pic",5),async(req,res)=>{
+router.post("/multiple",middelware.array("profile_pic",5),async(req,res)=>{
 
     const filepaths = req.files.map((file)=>file.path)
     const gallarydata = await Gallary.create({
